@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeepAwake - Dịch vụ giữ Web luôn thức</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="icon" type="image/x-icon" href="GD.png">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body {
+  font-family: 'Inter', sans-serif;
+  background: url('image.png') no-repeat center/cover;
+  background-attachment: fixed; /* web scroll vẫn giữ ảnh */
+  color: #333;
+  line-height: 1.6;
+}
+
+a{text-decoration:none;color:#4f46e5;}
+header{background:linear-gradient(135deg,#4f46e5,#818cf8);color:#fff;text-align:center;padding:5rem 1rem;position:relative;overflow:hidden;}
+header h1{font-size:3rem;margin-bottom:1rem;}
+header p{font-size:1.2rem;line-height:1.6;max-width:900px;margin:0 auto;}
+header p span{color:#facc15;font-weight:700;}
+header::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:url('data.jpg') no-repeat center/cover;opacity:0.15;pointer-events:none;}
+main{max-width:1200px;margin:2rem auto;padding:0 1rem;}
+h2{color:#4f46e5;font-size:2rem;margin-bottom:2rem;text-align:center;}
+.plans{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;}
+.plan{background:#fff;border-radius:20px;box-shadow:0 15px 35px rgba(0,0,0,0.15);flex:1 1 300px;padding:2rem;position:relative;transition:all 0.4s;}
+.plan:hover{transform:translateY(-10px);box-shadow:0 25px 45px rgba(0,0,0,0.25);}
+.plan h3{font-size:1.6rem;color:#111;margin-bottom:0.5rem;text-align:center;display:flex;align-items:center;justify-content:center;gap:0.5rem;}
+.plan p{font-size:1.2rem;font-weight:600;margin:1rem 0;color:#4f46e5;text-align:center;}
+.plan ul{list-style:none;padding:0;margin:1rem 0;}
+.plan ul li{margin-bottom:0.6rem;position:relative;padding-left:25px;font-size:1rem;}
+.plan ul li::before{content:"✓";position:absolute;left:0;color:#4f46e5;font-weight:bold;}
+.plan button{background:#4f46e5;color:#fff;border:none;padding:0.75rem 1.5rem;border-radius:12px;font-size:1rem;cursor:pointer;transition:0.3s;display:block;margin:1rem auto 0;}
+.plan button:hover{background:#3730a3;transform:scale(1.05);}
+.badge{position:absolute;top:15px;right:15px;background:#facc15;color:#111;font-weight:700;padding:0.3rem 0.7rem;border-radius:12px;font-size:0.85rem;box-shadow:0 3px 8px rgba(0,0,0,0.2);}
+.custom-plan{margin-top:3rem;text-align:center;background:#fff;padding:2rem;border-radius:20px;box-shadow:0 15px 35px rgba(0,0,0,0.15);}
+.custom-plan input{width:100px;padding:0.6rem 0.8rem;border-radius:12px;border:1px solid #ccc;box-shadow:inset 0 2px 5px rgba(0,0,0,0.05);font-size:1rem;margin-right:0.5rem;}
+.custom-plan select{padding:0.5rem 0.8rem;border-radius:12px;border:1px solid #ccc;margin-right:0.5rem;}
+.custom-plan button{margin-top:0.8rem;padding:0.7rem 1.5rem;font-size:1rem;border-radius:12px;border:none;background:#4f46e5;color:#fff;cursor:pointer;transition:0.3s;}
+.custom-plan button:hover{background:#3730a3;transform:scale(1.05);}
+.custom-plan .price{font-weight:700;color:#4f46e5;font-size:1.2rem;margin-left:10px;}
+.custom-plan .note{color:#b91c1c;font-size:0.9rem;margin-top:0.5rem;font-weight:600;}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.6);}
+.modal-content{background:#fff;margin:5% auto;padding:2.5rem;border-radius:20px;max-width:500px;position:relative;box-shadow:0 15px 35px rgba(0,0,0,0.3);animation:slideDown 0.4s;}
+@keyframes slideDown{from{transform:translateY(-30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.close{position:absolute;top:15px;right:20px;font-size:1.5rem;font-weight:bold;color:#333;cursor:pointer;}
+.modal-content h3{color:#4f46e5;margin-bottom:0.8rem;text-align:center;}
+.modal-content p{margin:0.5rem 0;font-size:1.05rem;text-align:center;}
+.modal-content input{width:80%;padding:0.5rem;border-radius:10px;border:1px solid #ccc;margin:0.5rem auto;display:block;}
+.modal-content button{background:#4f46e5;color:#fff;border:none;padding:0.6rem 1.2rem;border-radius:12px;font-size:1rem;cursor:pointer;transition:0.3s;display:block;margin:1rem auto;}
+.modal-content button:hover{background:#3730a3;transform:scale(1.05);}
+.modal-price{font-weight:700;color:#4f46e5;font-size:1.2rem;margin-top:0.5rem;text-align:center;}
+.tooltip{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#4f46e5;color:#fff;padding:0.8rem 1.5rem;border-radius:12px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.contact{text-align:center;margin-top:3rem;}
+.contact a{display:inline-block;background:#4f46e5;color:#fff;padding:0.6rem 1.2rem;border-radius:12px;margin:0.3rem;transition: background 0.3s, transform 0.2s;}
+.contact a:hover{background:#3730a3;transform:scale(1.05);}
+footer {
+  background: linear-gradient(135deg, #1e293b, #3b82f6); /* gradient mềm mại */
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.95rem;
+  border-top: 4px solid #60a5fa; /* tạo điểm nhấn */
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.2); /* nâng nhẹ footer */
+  font-family: 'Inter', sans-serif;
+}
+
+footer a {
+  color: #facc15; /* link nổi bật */
+  text-decoration: none;
+  margin: 0 0.5rem;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #ffffff;
+}
+
+@media(max-width:768px){.plans{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>KeepAwake|KHANHPC</h1>
+  <p>
+    Chào mừng đến với <span>Dịch vụ KeepAwake</span> – nơi chúng tôi đảm bảo rằng 
+    <span>web của bạn luôn thức 24/24</span>, hoạt động liên tục mà không gián đoạn. 
+    Khi bạn thuê dịch vụ, chúng tôi sẽ giúp <span>giảm thiểu mọi hiện tượng "sleep" hoặc cold start"</span> 
+    trên các nền tảng như <span>Render, Vercel, Netlify, Heroku</span> và nhiều dịch vụ cloud khác. 
+    Mỗi gói dịch vụ đều có <span>chính sách hoàn tiền lên đến 70%</span> nếu có sự cố bất khả kháng trong thời gian sử dụng, 
+    giúp bạn <span>an tâm và đảm bảo lợi ích</span>. Với hệ thống của chúng tôi, mọi dự án, kèo, ứng dụng hay website quan trọng của bạn sẽ luôn được 
+    <span>theo dõi, duy trì uptime</span> liên tục, giúp bạn an tâm về chất lượng và hiệu quả. 
+    Đây là giải pháp lý tưởng cho những ai cần <span>hoạt động web liên tục, ổn định, và đáng tin cậy</span> mà không cần can thiệp thủ công.
+  </p>
+</header>
+
+<main>
+<section>
+  <h2>Gói dịch vụ</h2>
+  <div class="plans">
+    <div class="plan">
+      <div class="badge">Ưu đãi</div>
+      <h3><i class="fa-regular fa-clock"></i> Gói Dùng Thử</h3>
+      <p>2 ngày</p>
+      <ul>
+        <li>Ping liên tục giữ web awake</li>
+        <li>Log cơ bản</li>
+        <li>Hoàn tiền 50% nếu có sự cố</li>
+      </ul>
+      <button onclick="openModal('Dùng Thử',2,30000)">Chọn gói</button>
+    </div>
+    <div class="plan">
+      <div class="badge">Khuyến mãi</div>
+      <h3><i class="fa-regular fa-calendar"></i> Gói Tháng</h3>
+      <p>1 tháng</p>
+      <ul>
+        <li>Ping liên tục</li>
+        <li>Log chi tiết & thông báo lỗi</li>
+        <li>Dashboard theo dõi uptime</li>
+        <li>Hoàn tiền 60% nếu có sự cố</li>
+      </ul>
+      <button onclick="openModal('Tháng',30,90000)">Chọn gói</button>
+    </div>
+    <div class="plan">
+      <div class="badge">Hot</div>
+      <h3><i class="fa-solid fa-medal"></i> Gói Năm</h3>
+      <p>12 tháng</p>
+      <ul>
+        <li>Ping liên tục</li>
+        <li>Dashboard & thông báo nâng cao</li>
+        <li>Hỗ trợ ưu tiên</li>
+        <li>Hoàn tiền 70% nếu có sự cố</li>
+      </ul>
+      <button onclick="openModal('Năm',365,900000)">Chọn gói</button>
+    </div>
+  </div>
+
+  <div class="custom-plan">
+    <h3>Gói Tùy Chỉnh</h3>
+    <p>Nhập số lượng:</p>
+    <input type="number" id="customNumber" min="1" placeholder="Số lượng">
+    <select id="customUnit">
+      <option value="day">Ngày</option>
+      <option value="month">Tháng</option>
+      <option value="year">Năm</option>
+    </select>
+    <span class="price" id="customPrice">0 VND</span>
+    <button onclick="openCustomModal()">Chọn gói</button>
+    <p class="note">⚠ Giá sẽ không được giảm nếu bạn mua <strong>Gói Tùy Chỉnh</strong>. Hoàn tiền tùy theo thỏa thuận.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Liên hệ</h2>
+  <p class="contact">
+    <a href="https://fb.com/khanhpc548" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a>
+    <a href="https://zalo.me/0924944845" target="_blank"><i class="fa-solid fa-phone"></i> Zalo</a>
+    <a href="mailto:vyk103736@gmail.com"><i class="fa-solid fa-envelope"></i> Email</a>
+  </p>
+</section>
+</main>
+
+<footer id="footer">
+  &copy; <span id="year"></span> KHANHPC. Mọi quyền bảo lưu.
+</footer>
+<script>
+  const yearSpan = document.getElementById('year');
+  const currentYear = new Date().getFullYear();
+  yearSpan.textContent = currentYear;
+</script>
+
+
+<!-- Modal chọn gói -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDetail"></p>
+    <div id="modalCustom" style="display:none;">
+      <p>Nhập số ngày:</p>
+      <input type="number" id="modalDays" min="1" value="1">
+      <p class="modal-price" id="modalPrice"></p>
+    </div>
+    <button onclick="copyAndOpenMessenger()">Tiếp tục</button>
+  </div>
+</div>
+
+<!-- Modal nhập link web với thông điệp -->
+<div id="linkModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeLinkModal()">&times;</span>
+    <h3>Nhập link web của bạn</h3>
+    <input type="text" id="userWebInput" placeholder="https://example.com">
+    <p style="color:#b91c1c; font-weight:600; text-align:center; margin-top:0.5rem;">
+      Sau khi bấm xác nhận vui lòng dán form giao dịch và gửi cho page của chúng tôi
+    </p>
+    <button onclick="submitLink()">Xác nhận</button>
+  </div>
+</div>
+
+<div id="tooltip" class="tooltip">Đã copy tin nhắn!</div>
+
+<script>
+let selectedPlan={name:'',days:0,price:0};
+const modal=document.getElementById('modal');
+const modalTitle=document.getElementById('modalTitle');
+const modalDetail=document.getElementById('modalDetail');
+const modalCustom=document.getElementById('modalCustom');
+const modalDays=document.getElementById('modalDays');
+const modalPrice=document.getElementById('modalPrice');
+const customNumberInput=document.getElementById('customNumber');
+const customUnitSelect=document.getElementById('customUnit');
+const customPriceSpan=document.getElementById('customPrice');
+const tooltip=document.getElementById('tooltip');
+const pricePerDay=3000; // Nếu muốn thay đổi giá, chỉ cần sửa giáPerDay
+
+// Link modal
+const linkModal = document.getElementById('linkModal');
+const userWebInput = document.getElementById('userWebInput');
+
+function openModal(name,days,price){
+  selectedPlan={name,days,price};
+  modalTitle.innerText=`${name} - ${days} ngày`;
+  modalDetail.innerHTML=`Chi tiết gói:<br>- ${days} ngày sử dụng<br>- Giá: ${price.toLocaleString()} VND`;
+  modalCustom.style.display='none';
+  modal.style.display='block';
+}
+
+function calculateCustomPrice(){
+  let num=parseInt(customNumberInput.value)||0;
+  let unit=customUnitSelect.value;
+  let days=num;
+  if(unit==='month') days=num*30;
+  if(unit==='year') days=num*365;
+  customPriceSpan.innerText=(days*pricePerDay).toLocaleString()+" VND";
+  customPriceSpan.style.color=(days>30)?'#f59e0b':'#4f46e5';
+}
+
+customNumberInput.addEventListener('input',calculateCustomPrice);
+customUnitSelect.addEventListener('change',calculateCustomPrice);
+
+function openCustomModal(){
+  const num=parseInt(customNumberInput.value);
+  if(!num||num<1){
+    customNumberInput.style.borderColor='#f59e0b';
+    return;
+  }
+  const unit=customUnitSelect.value;
+  let days=num;
+  if(unit==='month') days=num*30;
+  if(unit==='year') days=num*365;
+  selectedPlan={name:'Tùy Chỉnh',days:days,price:days*pricePerDay};
+  
+  modalTitle.innerText=`Gói Tùy Chỉnh - ${num} ${unit} (${days} ngày)`;
+  modalDetail.innerHTML='';
+  modalCustom.style.display='block';
+  modalDays.value=days;
+  modalPrice.innerText=`Tổng tiền: ${selectedPlan.price.toLocaleString()} VND`;
+  modal.style.display='block';
+}
+
+modalDays?.addEventListener('input',()=>{
+  const days=parseInt(modalDays.value)||1;
+  selectedPlan.days=days;
+  selectedPlan.price=days*pricePerDay;
+  modalPrice.innerText=`Tổng tiền: ${selectedPlan.price.toLocaleString()} VND`;
+});
+
+function copyAndOpenMessenger(){
+    userWebInput.value = '';
+    linkModal.style.display = 'block';
+    userWebInput.focus();
+}
+
+function submitLink(){
+    const userWeb = userWebInput.value.trim();
+    if(!userWeb){
+        userWebInput.style.borderColor = '#f59e0b';
+        return;
+    }
+
+    const msg=`Kèo web
+Link: ${userWeb}
+Gói: ${selectedPlan.name} (${selectedPlan.days} ngày)
+Giá: ${selectedPlan.price.toLocaleString()} VND`;
+
+    navigator.clipboard.writeText(msg).then(()=>{
+        tooltip.style.opacity = 1;
+        setTimeout(()=>tooltip.style.opacity = 0, 2000);
+        window.open("https://www.messenger.com/t/khanhdev548","_blank");
+    }).catch(()=>{
+        alert("Không thể copy. Copy thủ công:\n"+msg);
+        window.open("https://www.messenger.com/t/khanhdev548","_blank");
+    });
+
+    closeModal();
+    closeLinkModal();
+}
+
+function closeModal(){modal.style.display='none';}
+function closeLinkModal(){linkModal.style.display='none';}
+
+window.onclick=function(event){
+    if(event.target==modal) closeModal();
+    if(event.target==linkModal) closeLinkModal();
+}
+</script>
+</body>
+</html>
