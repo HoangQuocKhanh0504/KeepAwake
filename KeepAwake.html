@@ -100,64 +100,65 @@ footer a:hover {
 
 <main>
 <section>
-  <h2>Gói dịch vụ</h2>
-  <div class="plans">
-    <div class="plan">
-      <div class="badge">Ưu đãi</div>
-      <h3><i class="fa-regular fa-clock"></i> Gói Dùng Thử</h3>
-      <p>2 ngày</p>
-      <ul>
-        <li>Ping liên tục giữ web awake</li>
-        <li>Log cơ bản</li>
-        <li>Hoàn tiền 50% nếu có sự cố</li>
-      </ul>
-      <button onclick="openModal('Dùng Thử',2,40000)">Chọn gói</button>
-    </div>
-    <div class="plan">
-      <div class="badge">Khuyến mãi</div>
-      <h3><i class="fa-regular fa-calendar"></i> Gói Tháng</h3>
-      <p>1 tháng</p>
-      <ul>
-        <li>Ping liên tục</li>
-        <li>Log chi tiết & thông báo lỗi</li>
-        <li>Dashboard theo dõi uptime</li>
-        <li>Hoàn tiền 60% nếu có sự cố</li>
-      </ul>
-      <button onclick="openModal('Tháng',30,100000)">Chọn gói</button>
-    </div>
-    <div class="plan">
-      <div class="badge">Hot</div>
-      <h3><i class="fa-solid fa-medal"></i> Gói Năm</h3>
-      <p>12 tháng</p>
-      <ul>
-        <li>Ping liên tục</li>
-        <li>Dashboard & thông báo nâng cao</li>
-        <li>Hỗ trợ ưu tiên</li>
-        <li>Hoàn tiền 70% nếu có sự cố</li>
-      </ul>
-      <button onclick="openModal('Năm',365,910000)">Chọn gói</button>
-    </div>
-    <div class="plan">
-  <div class="badge">Best Deal</div>
-  <h3><i class="fa-solid fa-infinity"></i> Gói Trọn Đời</h3>
-  <p>Vĩnh viễn</p>
-  <ul>
-<ul>
-  <li>Ping liên tục 24/24</li>
-  <li>Dashboard & thông báo nâng cao</li>
-  <li>Hỗ trợ ưu tiên trọn đời</li>
-  <li>Trả 1 lần – dùng mãi mãi</li>
-<li style="color:#b91c1c;font-weight:700;">
-  ⚠ Không hoàn tiền trong mọi trường hợp nếu không sử dụng hết thời gian đã mua
-</li>
+<h2>Gói dịch vụ</h2>
+<div class="plans">
 
-</ul>
+  <div class="plan">
+    <div class="badge">-30%</div>
+    <h3><i class="fa-regular fa-clock"></i> Gói Dùng Thử</h3>
+    <p>2 ngày</p>
+    <ul>
+      <li>Ping liên tục giữ web awake</li>
+      <li>Log cơ bản</li>
+      <li>Hoàn tiền 50% nếu có sự cố</li>
+    </ul>
+    <button onclick="openModal('Dùng Thử',2,7000)">Chọn gói</button>
+  </div>
 
-  </ul>
-  <button onclick="openModal('Trọn Đời',99999,2500000)">Chọn gói</button>
+  <div class="plan">
+    <div class="badge">-33%</div>
+    <h3><i class="fa-regular fa-calendar"></i> Gói Tháng</h3>
+    <p>1 tháng</p>
+    <ul>
+      <li>Ping liên tục</li>
+      <li>Log chi tiết & thông báo lỗi</li>
+      <li>Dashboard theo dõi uptime</li>
+      <li>Hoàn tiền 60% nếu có sự cố</li>
+    </ul>
+    <button onclick="openModal('Tháng',30,100000)">Chọn gói</button>
+  </div>
+
+  <div class="plan">
+    <div class="badge">-50%</div>
+    <h3><i class="fa-solid fa-medal"></i> Gói Năm</h3>
+    <p>12 tháng</p>
+    <ul>
+      <li>Ping liên tục</li>
+      <li>Dashboard & thông báo nâng cao</li>
+      <li>Hỗ trợ ưu tiên</li>
+      <li>Hoàn tiền 70% nếu có sự cố</li>
+    </ul>
+    <button onclick="openModal('Năm',365,920000)">Chọn gói</button>
+  </div>
+
+  <div class="plan">
+    <div class="badge">-60%</div>
+    <h3><i class="fa-solid fa-infinity"></i> Gói Trọn Đời</h3>
+    <p>Vĩnh viễn</p>
+    <ul>
+      <li>Ping liên tục 24/24</li>
+      <li>Dashboard & thông báo nâng cao</li>
+      <li>Hỗ trợ ưu tiên trọn đời</li>
+      <li>Trả 1 lần – dùng mãi mãi</li>
+      <li style="color:#b91c1c;font-weight:700;">
+        ⚠ Không hoàn tiền trong mọi trường hợp nếu không sử dụng hết thời gian đã mua
+      </li>
+    </ul>
+    <button onclick="openModal('Trọn Đời',99999,2500000)">Chọn gói</button>
+  </div>
+
 </div>
 
-  </div>
 
   <div class="custom-plan">
     <h3>Gói Tùy Chỉnh</h3>
@@ -236,7 +237,7 @@ const customNumberInput=document.getElementById('customNumber');
 const customUnitSelect=document.getElementById('customUnit');
 const customPriceSpan=document.getElementById('customPrice');
 const tooltip=document.getElementById('tooltip');
-const pricePerDay=8000; // Nếu muốn thay đổi giá, chỉ cần sửa giáPerDay
+const pricePerDay=5000; // Nếu muốn thay đổi giá, chỉ cần sửa giáPerDay
 
 // Link modal
 const linkModal = document.getElementById('linkModal');
@@ -331,5 +332,6 @@ window.onclick=function(event){
 </script>
 </body>
 </html>
+
 
 
